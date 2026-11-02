@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#087f8c">
+  <meta name="description" content="HomeCare - منصة متابعة الرعاية الصحية المنزلية">
+  <title>HomeCare | رعايتك في بيتك</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="HomeCare">
+      <span class="brand-mark">✚</span>
+      <span><b>HomeCare</b><small>رعايتك في بيتك</small></span>
+    </a>
+    <div class="top-actions">
+      <button id="langBtn" class="icon-btn" type="button" title="Change language">EN</button>
+      <button id="themeBtn" class="icon-btn" type="button" title="تغيير المظهر">☾</button>
+      <button id="logoutBtn" class="btn btn-outline hidden" type="button">تسجيل الخروج</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section id="authView" class="auth-layout">
+      <div class="hero-panel">
+        <span class="eyebrow">HOME HEALTHCARE PLATFORM</span>
+        <h1>رعايتك الصحية<br><em>مستمرة في بيتك</em></h1>
+        <p>نظّم بياناتك الصحية، تابع قراءاتك، وتابع خطة الرعاية مع فريقك الصحي.</p>
+        <div class="hero-points">
+          <span>✓ متابعة صحية منظمة</span>
+          <span>✓ سجل للقياسات والأدوية</span>
+          <span>✓ تواصل أوضح مع فريق الرعاية</span>
+        </div>
+      </div>
+      <div class="auth-card">
+        <div class="tabs">
+          <button class="tab active" data-auth-tab="login">تسجيل الدخول</button>
+          <button class="tab" data-auth-tab="signup">إنشاء حساب</button>
+        </div>
+        <form id="loginForm" class="auth-form">
+          <h2>أهلاً بعودتك</h2>
+          <label>البريد الإلكتروني<input name="email" type="email" autocomplete="email" required placeholder="name@example.com"></label>
+          <label>كلمة المرور<input name="password" type="password" autocomplete="current-password" required minlength="6" placeholder="••••••••"></label>
+          <button class="btn btn-primary full" type="submit">دخول</button>
+          <button id="forgotBtn" class="text-btn" type="button">نسيت كلمة المرور؟</button>
+        </form>
+        <form id="signupForm" class="auth-form hidden">
+          <h2>إنشاء حساب جديد</h2>
+          <label>الاسم الكامل<input name="full_name" required maxlength="100" placeholder="الاسم كما تحب ظهوره"></label>
+          <label>البريد الإلكتروني<input name="email" type="email" autocomplete="email" required placeholder="name@example.com"></label>
+          <label>كلمة المرور<input name="password" type="password" autocomplete="new-password" required minlength="8" placeholder="8 أحرف على الأقل"></label>
+          <label>نوع الحساب
+            <select name="role" required>
+              <option value="patient">مريض / أحد أفراد الأسرة</option>
+              <option value="nurse">ممرض / ممرضة (للتجربة بموافقة الإدارة)</option>
+            </select>
+          </label>
+          <p class="hint">حساب الممرض لا يحصل على صلاحية متابعة أي مريض تلقائيًا. يجب إنشاء علاقة متابعة بموافقة المريض.</p>
+          <button class="btn btn-primary full" type="submit">إنشاء الحساب</button>
+        </form>
+        <p class="security-note">لا تدخل بيانات طبية حقيقية في نسخة العرض قبل إتمام مراجعة الأمان والخصوصية.</p>
+      </div>
+    </section>
+
+    <section id="appView" class="hidden">
+      <div class="welcome-row">
+        <div><span class="eyebrow" id="roleLabel">مساحة الرعاية الصحية</span><h1 id="welcomeTitle">أهلاً بك</h1><p class="muted">تابع بياناتك الصحية في مكان واحد.</p></div>
+        <div class="today-pill" id="todayLabel"></div>
+      </div>
+
+      <nav class="nav" aria-label="القائمة الرئيسية">
+        <button class="nav-item active" data-page="overview">الرئيسية</button>
+        <button class="nav-item" data-page="profile">الملف الصحي</button>
+        <button class="nav-item" data-page="vitals">القياسات</button>
+        <button class="nav-item" data-page="medications">الأدوية</button>
+        <button class="nav-item" data-page="care">الرعاية التمريضية</button>
+        <button class="nav-item" data-page="appointments">المواعيد</button>
+        <button class="nav-item" data-page="notes">الملاحظات</button>
+        <button class="nav-item nurse-only hidden" data-page="nurse">لوحة الممرض</button>
+      </nav>
+
+      <section id="page-overview" class="page">
+        <div class="notice"><b>تنبيه:</b> HomeCare أداة لتنظيم المتابعة والتثقيف الصحي، ولا يقدم تشخيصًا أو يغيّر وصفات العلاج. في الطوارئ اتصل بالإسعاف المصري 123 أو توجّه للطوارئ.</div>
+        <div class="stats-grid">
+          <article class="stat-card"><span class="stat-icon">♡</span><small>آخر قراءة ضغط</small><strong id="statBp">—</strong><span class="muted">مم زئبق</span></article>
+          <article class="stat-card"><span class="stat-icon">◉</span><small>آخر نبض</small><strong id="statPulse">—</strong><span class="muted">نبضة / دقيقة</span></article>
+          <article class="stat-card"><span class="stat-icon">◌</span><small>الأدوية المسجلة</small><strong id="statMeds">0</strong><span class="muted">دواء</span></article>
+          <article class="stat-card"><span class="stat-icon">▦</span><small>المواعيد القادمة</small><strong id="statAppointments">0</strong><span class="muted">موعد</span></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel"><div class="panel-head"><div><h2>اختصارات سريعة</h2><p class="muted">سجّل أو راجع بياناتك</p></div></div>
+            <div class="quick-grid">
+              <button class="quick-action" data-go="vitals"><span>＋</span>إضافة قياس</button>
+              <button class="quick-action" data-go="medications"><span>＋</span>إضافة دواء</button>
+              <button class="quick-action" data-go="appointments"><span>＋</span>إضافة موعد</button>
+              <button class="quick-action" data-go="notes"><span>＋</span>ملاحظة جديدة</button>
+            </div>
+          </article>
+          <article class="panel"><div class="panel-head"><div><h2>آخر النشاطات</h2><p class="muted">ملخص آخر ما تم تسجيله</p></div></div><div id="recentActivity" class="empty-state">لا توجد بيانات بعد. ابدأ بإضافة أول قراءة أو موعد.</div></article>
+        </div>
+      </section>
+
+      <section id="page-profile" class="page hidden">
+        <div class="page-heading"><div><h2>الملف الصحي</h2><p class="muted">معلومات تساعد فريق الرعاية على فهم احتياجاتك.</p></div></div>
+        <form id="profileForm" class="panel form-grid">
+          <label>الاسم الكامل<input name="full_name" required maxlength="100"></label>
+          <label>تاريخ الميلاد<input name="birth_date" type="date"></label>
+          <label>رقم الهاتف<input name="phone" type="tel" maxlength="25"></label>
+          <label>النوع
+            <select name="sex"><option value="">غير محدد</option><option value="male">ذكر</option><option value="female">أنثى</option><option value="other">أفضل عدم التحديد</option></select>
+          </label>
+          <label>فصيلة الدم
+            <select name="blood_type"><option value="">غير معروف</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select>
+          </label>
+          <label>الحساسية المعروفة<input name="allergies" maxlength="500" placeholder="اكتب لا يوجد إذا لم تكن تعرف حساسية"></label>
+          <label class="span-2">الحالات الصحية / التاريخ المرضي<textarea name="medical_history" rows="3" maxlength="2000" placeholder="اكتب المعلومات التي أكدها الطبيب فقط"></textarea></label>
+          <label class="span-2">جهة اتصال للطوارئ (الاسم ورقم الهاتف)<input name="emergency_contact" maxlength="150"></label>
+          <div class="span-2"><button class="btn btn-primary" type="submit">حفظ الملف الصحي</button></div>
+        </form>
+      </section>
+
+      <section id="page-vitals" class="page hidden">
+        <div class="page-heading"><div><h2>العلامات الحيوية</h2><p class="muted">أدخل القراءات كما قاسها جهازك أو مقدم الرعاية.</p></div></div>
+        <form id="vitalsForm" class="panel form-grid">
+          <label>ضغط انقباضي (mmHg)<input name="systolic" type="number" min="40" max="300" placeholder="مثال: 120"></label>
+          <label>ضغط انبساطي (mmHg)<input name="diastolic" type="number" min="20" max="200" placeholder="مثال: 80"></label>
+          <label>النبض (نبضة/دقيقة)<input name="pulse" type="number" min="20" max="250"></label>
+          <label>درجة الحرارة (°C)<input name="temperature" type="number" min="30" max="45" step="0.1"></label>
+          <label>الأكسجين SpO₂ (%)<input name="spo2" type="number" min="50" max="100"></label>
+          <label>معدل التنفس (مرة/دقيقة)<input name="respiratory_rate" type="number" min="1" max="80"></label>
+          <label class="span-2">ملاحظات<textarea name="notes" rows="2" maxlength="500"></textarea></label>
+          <div class="span-2"><button class="btn btn-primary" type="submit">حفظ القراءة</button></div>
+        </form>
+        <div class="panel table-panel"><div class="panel-head"><h3>سجل القياسات</h3><button id="exportVitalsBtn" class="btn btn-outline btn-small">تصدير CSV</button></div><div id="vitalsList" class="table-wrap"></div></div>
+      </section>
+
+      <section id="page-medications" class="page hidden">
+        <div class="page-heading"><div><h2>الأدوية</h2><p class="muted">سجّل فقط الأدوية الموصوفة لك من مختص.</p></div></div>
+        <form id="medForm" class="panel form-grid">
+          <label>اسم الدواء<input name="name" required maxlength="120"></label>
+          <label>الجرعة المكتوبة بالوصفة<input name="dose" required maxlength="100" placeholder="كما وصفها الطبيب"></label>
+          <label>مواعيد التناول<input name="schedule" required maxlength="150" placeholder="مثال: 8 صباحًا و8 مساءً"></label>
+          <label>تاريخ الانتهاء (اختياري)<input name="end_date" type="date"></label>
+          <label class="span-2">تعليمات إضافية<textarea name="instructions" rows="2" maxlength="500"></textarea></label>
+          <div class="span-2"><button class="btn btn-primary" type="submit">إضافة الدواء</button></div>
+        </form>
+        <div id="medicationsList" class="cards-list"></div>
+      </section>
+
+      <section id="page-care" class="page hidden">
+        <div class="page-heading"><div><h2>الرعاية التمريضية المنزلية</h2><p class="muted">مواد تثقيفية عامة؛ اتبع خطة الطبيب والممرض المسؤول.</p></div></div>
+        <div class="care-grid">
+          <article class="care-card"><span>🩹</span><h3>العناية بالجرح</h3><p>اغسل يديك قبل وبعد التعامل مع الضمادة، واتبع تعليمات الفريق المعالج بشأن تغييرها. لا تضع مواد أو مراهم غير موصوفة.</p><b>اطلب تقييمًا طبيًا</b><p>إذا ظهر احمرار متزايد أو تورم أو صديد أو ألم متفاقم أو حرارة عامة.</p></article>
+          <article class="care-card"><span>🛏️</span><h3>الوقاية من قرح الضغط</h3><p>افحص الجلد بانتظام، وغيّر الوضعية وفق الخطة الفردية، وحافظ على جفاف ونظافة الجلد.</p><b>تنبيه</b><p>لا تعتمد على جدول تقليب واحد لكل المرضى؛ يحدد المختص التكرار المناسب.</p></article>
+          <article class="care-card"><span>💧</span><h3>السوائل والتغذية</h3><p>اتبع كمية السوائل والنظام الغذائي المحددين لك. بعض الحالات تحتاج تقييد السوائل أو تعديل الغذاء.</p><b>مهم</b><p>لا تغيّر نظامك الغذائي العلاجي دون استشارة مختص.</p></article>
+          <article class="care-card"><span>🚶</span><h3>الحركة الآمنة</h3><p>تحرك وفق تعليمات الطبيب، واطلب المساعدة عند وجود دوخة أو ضعف أو خطر سقوط.</p><b>بعد العمليات</b><p>التزم بقيود الحركة ورفع الأوزان التي حددها الجرّاح.</p></article>
+          <article class="care-card"><span>🧼</span><h3>النظافة الشخصية</h3><p>حافظ على نظافة اليدين والأدوات والأسطح، ولا تشارك الأدوات الشخصية أو أدوات العناية بالجروح.</p></article>
+          <article class="care-card"><span>🧠</span><h3>الصحة النفسية</h3><p>اطلب الدعم من الأسرة والفريق الصحي، وأخبر مقدم الرعاية إذا أثرت حالتك على النوم أو المزاج أو القدرة على أداء الأنشطة.</p></article>
+        </div>
+      </section>
+
+      <section id="page-appointments" class="page hidden">
+        <div class="page-heading"><div><h2>المواعيد الطبية</h2><p class="muted">نظّم زيارات الطبيب والفحوصات.</p></div></div>
+        <form id="appointmentForm" class="panel form-grid">
+          <label>نوع الموعد<input name="title" required maxlength="120" placeholder="زيارة طبيب / تحليل / أشعة"></label>
+          <label>اسم الطبيب أو الجهة<input name="provider" maxlength="120"></label>
+          <label>التاريخ والوقت<input name="appointment_at" type="datetime-local" required></label>
+          <label>المكان<input name="location" maxlength="200"></label>
+          <label class="span-2">ملاحظات<textarea name="notes" rows="2" maxlength="500"></textarea></label>
+          <div class="span-2"><button class="btn btn-primary" type="submit">إضافة الموعد</button></div>
+        </form>
+        <div id="appointmentsList" class="cards-list"></div>
+      </section>
+
+      <section id="page-notes" class="page hidden">
+        <div class="page-heading"><div><h2>الملاحظات اليومية</h2><p class="muted">دوّن الأعراض أو الأسئلة التي تريد مناقشتها مع الفريق الصحي.</p></div></div>
+        <form id="noteForm" class="panel form-grid">
+          <label class="span-2">عنوان الملاحظة<input name="title" required maxlength="120"></label>
+          <label class="span-2">التفاصيل<textarea name="body" required rows="4" maxlength="2000"></textarea></label>
+          <div class="span-2"><button class="btn btn-primary" type="submit">حفظ الملاحظة</button></div>
+        </form>
+        <div id="notesList" class="cards-list"></div>
+      </section>
+
+      <section id="page-nurse" class="page hidden">
+        <div class="page-heading"><div><h2>لوحة الممرض</h2><p class="muted">هذه مساحة تجريبية. لن تظهر بيانات مريض إلا بعد وجود موافقة وربط مصرح به.</p></div></div>
+        <div class="notice">لأسباب الخصوصية، لا توجد خاصية بحث عام عن المرضى. يلزم تنفيذ دعوة وموافقة صريحة وربط آمن قبل تفعيل المتابعة السريرية.</div>
+        <div class="panel"><h3>حساب الممرض</h3><p id="nurseInfo" class="muted">—</p><p>في نسخة العرض، يمكن استعراض حساب الممرض وتسجيل ملاحظات تعليمية خاصة به. مشاركة بيانات المرضى تتطلب تفعيل آلية الموافقة وإجراءات الحوكمة.</p></div>
+      </section>
+
+      <footer class="app-footer">HomeCare © <span id="year"></span> · مشروع تخرج تعليمي · ليس بديلًا عن الرعاية الطبية</footer>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./config.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
